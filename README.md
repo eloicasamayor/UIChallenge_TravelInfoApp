@@ -1,16 +1,8 @@
 # ui_challange_travel_info_app
 
-A new Flutter project.
 
-## Getting Started
+Flutter exercise to practise animations.
+[Deployed on GitHub Pages](https://eloicasamayor.github.io/UIChallenge_TravelInfoApp/)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- This is the [Original design](https://dribbble.com/shots/8899017-Travel-information-app)
+- Inspired by [This video](https://www.youtube.com/watch?v=r4Igymgw0FY&t=6418s) from NoScopeDevs: [Elian Ortega](https://github.com/elianmortega) and [Marcos Sevilla](https://github.com/marcossevilla)
