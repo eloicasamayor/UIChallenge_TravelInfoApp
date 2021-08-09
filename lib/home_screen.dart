@@ -69,10 +69,64 @@ class _MyHomePageState extends State<MyHomePage>
               _VerticalDots(),
               _ArrowLines(),
               _IconRow(),
+              _ArticleTitle(),
+              _IntroText(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _IntroText extends StatelessWidget {
+  const _IntroText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Animation<double>>(builder: (context, animation, child) {
+      return Positioned(
+        top: 540,
+        left: 65,
+        child: FadeTransition(
+          opacity: animation,
+          child: const Text(
+            'The Sahara desert was formed \nabout 2.5 milion years ago.',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w300,
+              height: 1.4,
+              letterSpacing: 1,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class _ArticleTitle extends StatelessWidget {
+  const _ArticleTitle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Animation<double>>(
+      builder: (context, animation, child) {
+        return Positioned(
+          top: 450.0 - 240 * (1 - animation.value),
+          left: 34,
+          child: FadeTransition(
+            opacity: animation,
+            child: Text(
+              'Sahara',
+              style: TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -92,7 +146,7 @@ class _TopText extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'The three largest \ndeserts in the world ${animation.value}',
+                  'The three largest \ndeserts in the world',
                   style: TextStyle(
                     fontSize: 30 - 5 * animation.value,
                     color: kBlackColor,
@@ -151,12 +205,15 @@ class _DesertContainer extends StatelessWidget {
             ),
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.all(5),
-            child: const Text(
-              'Sahara',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+            child: FadeTransition(
+              opacity: ReverseAnimation(animation),
+              child: const Text(
+                'Sahara',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
@@ -174,7 +231,7 @@ class _SquareButton extends StatelessWidget {
     return Consumer<Animation<double>>(
       builder: (context, animation, child) {
         return Positioned(
-          top: 180 - 70 * animation.value,
+          top: 190 - 70 * animation.value,
           right: 20,
           child: Stack(
             children: [
@@ -182,16 +239,16 @@ class _SquareButton extends StatelessWidget {
                 offset: Offset(
                     -10 * (1 - animation.value), -10 * (1 - animation.value)),
                 child: Container(
-                  height: 80,
-                  width: 80,
+                  height: 70,
+                  width: 70,
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(.4),
                   ),
                 ),
               ),
               Container(
-                height: 80,
-                width: 80,
+                height: 70,
+                width: 70,
                 decoration: const BoxDecoration(
                   color: Colors.black,
                 ),
@@ -327,35 +384,67 @@ class _IconRow extends StatelessWidget {
     return Consumer<Animation<double>>(
       builder: (context, animation, child) {
         return Positioned(
-          top: 600,
+          top: 610,
           left: 70,
           child: Row(
             children: [
-              const Icon(
-                Icons.map,
-                size: 30,
-                color: kDarkGreyColor,
+              _AnimatedScaleIcon(
+                startInterval: 0.4,
+                endInterval: 0.55,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
-              const Icon(
-                Icons.sailing,
-                size: 30,
-                color: kDarkGreyColor,
+              _AnimatedScaleIcon(
+                icon: Icons.ac_unit,
+                startInterval: 0.6,
+                endInterval: 0.75,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
-              const Icon(
-                Icons.baby_changing_station,
-                size: 30,
-                color: kDarkGreyColor,
-              ),
+              _AnimatedScaleIcon(
+                icon: Icons.layers,
+                startInterval: 0.8,
+                endInterval: .95,
+              )
             ],
           ),
         );
       },
+    );
+  }
+}
+
+class _AnimatedScaleIcon extends StatelessWidget {
+  final IconData? icon;
+  final double startInterval;
+  final double endInterval;
+  _AnimatedScaleIcon({
+    Key? key,
+    this.icon,
+    required this.startInterval,
+    required this.endInterval,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(
+          parent: context.watch<Animation<double>>(),
+          curve: Interval(
+            startInterval,
+            endInterval,
+            curve: Curves.easeInOutBack,
+          ),
+        ),
+      ), //,
+      child: Icon(
+        icon ?? Icons.map,
+        size: 30,
+        color: kDarkGreyColor,
+      ),
     );
   }
 }
